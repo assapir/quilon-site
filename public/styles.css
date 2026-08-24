@@ -1,26 +1,29 @@
 /* quilon.run — coming soon. No framework, no build step. */
 
 :root {
-  /* Claret. Swap this one value to retune the whole page. */
-  --claret: #7f1734;
-  --claret-lift: #a8264c;
+  /* Claret, light. One value drives every accent on the page. */
+  --claret: #a2194f;
 
-  --bg: #0d0d0f; /* the logo tile */
-  --fg: #f2f0ee;
-  --fg-dim: #8b8b88;
-  --border: #262629;
+  --bg: #fbfaf8;
+  --code-bg: #f4f2ef;
+  --fg: #1a1a1c;
+  --fg-dim: #6b6b70;
+  --border: #e4e1dc;
 
-  /* Code, deliberately two-tone: claret carries the symbols, everything
-     else stays quiet. The page has one line of code; it does not need six
-     colours to read it. */
-  --ql-operator: var(--claret-lift);
-  --ql-control: var(--claret-lift);
-  --ql-type: var(--fg);
-  --ql-name: var(--fg);
-  --ql-number: var(--fg);
-  --ql-const: var(--fg);
-  --ql-string: var(--fg);
-  --ql-comment: #6f6f74;
+  /* Code colours are a claret ramp, not a rainbow — the sample should read as
+     part of the page. Every one clears 4.5:1 on --code-bg. */
+  --bordeaux: #6e1230;
+  --rose: #8a3d5c;
+  --mauve: #7a4a63;
+
+  --qn-operator: var(--claret);   /* = := -> => |> :: ? | / */
+  --qn-control: var(--claret);    /* ^ << >> */
+  --qn-type: var(--bordeaux);     /* Num, Text, Shape */
+  --qn-const: var(--rose);        /* $ Ok NotOk */
+  --qn-number: var(--rose);
+  --qn-string: var(--mauve);
+  --qn-name: var(--fg);           /* declared names stay plain */
+  --qn-comment: #6e6a61;
 }
 
 * {
@@ -50,87 +53,110 @@ main {
   text-align: center;
 }
 
-.logo {
-  width: 96px;
-  height: 96px;
-  border-radius: 22px;
-  display: block;
-  margin: 0 auto 1.75rem;
-}
-
 h1 {
-  margin: 0 0 1rem;
-  font-size: clamp(2.75rem, 10vw, 3.75rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 0 0 1.25rem;
+  font-size: clamp(2.5rem, 9vw, 3.25rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 
-.tagline {
-  margin: 0 auto 2.5rem;
-  max-width: 30rem;
-  color: var(--fg-dim);
-  font-size: 1.05rem;
+h1 img {
+  width: clamp(2.5rem, 9vw, 3.25rem);
+  height: clamp(2.5rem, 9vw, 3.25rem);
+  border-radius: 14px;
+  flex: none;
 }
 
-.tagline strong {
+.tagline {
+  margin: 0 auto 0.6rem;
+  max-width: 31rem;
   color: var(--fg);
-  font-weight: 600;
+  font-size: 1.05rem;
+  text-wrap: balance;
+}
+
+.tagline em {
+  font-style: italic;
 }
 
 .subline {
-  margin: -1.75rem auto 2.5rem;
+  margin: 0 auto 2.5rem;
   max-width: 31rem;
-  color: #6f6f74;
+  color: var(--fg-dim);
   font-size: 0.9rem;
+  text-wrap: balance;
 }
 
 pre {
-  margin: 0;
-  padding: 1.25rem 1.5rem;
+  margin: 0 0 2.5rem;
+  padding: 1.35rem 1.5rem;
   overflow-x: auto;
   text-align: left;
-  background: #141417;
+  line-height: 1.7;
+  background: var(--code-bg);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--claret);
   border-radius: 10px;
 }
 
 code {
   font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
-  font-size: 1rem;
+  font-size: 0.85rem;
 }
 
-.caption {
-  margin: 0.75rem 0 2.5rem;
-  color: var(--fg-dim);
-  font-size: 0.875rem;
-  font-style: italic;
-}
-
-.status {
-  margin: 0 0 2rem;
-  color: var(--fg-dim);
-  font-size: 0.95rem;
+.release {
+  margin: 0 0 1rem;
 }
 
 .pill {
   display: inline-block;
-  margin-right: 0.5rem;
-  padding: 0.15rem 0.6rem;
-  border-radius: 999px;
+  padding: 0.55rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
   background: var(--claret);
   color: #fff;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.8rem;
-  letter-spacing: 0.01em;
+  font-size: 0.825rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pill:hover {
+  background: #8c1444;
+}
+
+.pill:active {
+  transform: translateY(1px);
+}
+
+.pill:focus-visible {
+  outline: 2px solid var(--claret);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pill {
+    transition: background-color 0.15s ease;
+  }
+}
+
+.soon {
+  margin: 0 0 2.5rem;
+  color: var(--fg-dim);
+  font-size: 0.85rem;
 }
 
 .links {
   margin: 0;
   color: var(--border);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .links a {
@@ -144,39 +170,39 @@ code {
 .links a:hover,
 .links a:focus-visible {
   color: var(--fg);
-  border-bottom-color: var(--claret-lift);
+  border-bottom-color: var(--claret);
 }
 
 .links a:focus-visible {
-  outline: 2px solid var(--claret-lift);
+  outline: 2px solid var(--claret);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 /* ---- syntax highlighting ---- */
 
-.ql-comment {
-  color: var(--ql-comment);
+.qn-comment {
+  color: var(--qn-comment);
   font-style: italic;
 }
-.ql-string {
-  color: var(--ql-string);
+.qn-string {
+  color: var(--qn-string);
 }
-.ql-number {
-  color: var(--ql-number);
+.qn-number {
+  color: var(--qn-number);
 }
-.ql-const {
-  color: var(--ql-const);
+.qn-const {
+  color: var(--qn-const);
 }
-.ql-operator {
-  color: var(--ql-operator);
+.qn-operator {
+  color: var(--qn-operator);
 }
-.ql-control {
-  color: var(--ql-control);
+.qn-control {
+  color: var(--qn-control);
 }
-.ql-type {
-  color: var(--ql-type);
+.qn-type {
+  color: var(--qn-type);
 }
-.ql-name {
-  color: var(--ql-name);
+.qn-name {
+  color: var(--qn-name);
 }

@@ -9,17 +9,17 @@ import { QUILON_GRAMMAR } from "./quilon-grammar.js";
 
 /** Scope prefix → CSS class; longest prefix wins, unmatched scopes stay plain. */
 const SCOPE_CLASSES = [
-  ["comment", "ql-comment"],
-  ["string", "ql-string"],
-  ["constant.character.escape", "ql-string"],
-  ["constant.numeric", "ql-number"],
-  ["constant.language", "ql-const"],
-  ["keyword.control", "ql-control"],
-  ["keyword.operator", "ql-operator"],
-  ["support.type", "ql-type"],
-  ["entity.name.type", "ql-type"],
-  ["entity.name.function", "ql-name"],
-  ["entity.name.namespace", "ql-name"],
+  ["comment", "qn-comment"],
+  ["string", "qn-string"],
+  ["constant.character.escape", "qn-string"],
+  ["constant.numeric", "qn-number"],
+  ["constant.language", "qn-const"],
+  ["keyword.control", "qn-control"],
+  ["keyword.operator", "qn-operator"],
+  ["support.type", "qn-type"],
+  ["entity.name.type", "qn-type"],
+  ["entity.name.function", "qn-name"],
+  ["entity.name.namespace", "qn-name"],
 ];
 
 function classFor(scope) {

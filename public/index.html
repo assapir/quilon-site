@@ -6,7 +6,7 @@
     <title>Quilon — a symbol-based language that should make you laugh</title>
     <meta
       name="description"
-      content="A statically-typed, symbol-based language that compiles to native and should make me laugh. Colorless implicit futures on cooperative fibers."
+      content="A statically-typed, symbol-based language that compiles to native and should make me laugh. Colorless concurrency on cooperative fibers."
     />
     <link rel="canonical" href="https://quilon.run/" />
     <meta property="og:title" content="Quilon" />
@@ -23,26 +23,48 @@
   </head>
   <body>
     <main>
-      <img class="logo" src="/icon.png" alt="" width="96" height="96" />
-
-      <h1>Quilon</h1>
+      <h1>
+        <img src="/icon.png" alt="" width="64" height="64" />
+        <span>Quilon</span>
+      </h1>
 
       <p class="tagline">
-        A statically-typed, symbol-based language that
-        <strong>compiles to native and should make me laugh</strong>.
+        A statically-typed, symbol-based language that compiles to native and should
+        <em>make me laugh</em>.
       </p>
       <p class="subline">
-        Colorless implicit futures on cooperative fibers — concurrency follows data
-        dependence, not program order.
+        Colorless concurrency on cooperative fibers — work runs when its data is
+        ready, not where it sits in the file.
       </p>
 
-      <pre><code class="language-quilon">^ = () -&gt; Num =&gt; 42</code></pre>
-      <p class="caption">That is a whole program.</p>
+      <pre><code class="language-quilon">&lt;&lt; core.io
 
-      <p class="status">
-        <span class="pill">v0.9.2 &ldquo;Hegemon&rdquo;</span>
-        The site is coming. The language is already here.
+~ variants split by /, payloads optional
+Shape = Circle(Num) / Rect(Num, Num)
+
+~ ? and | match, and bind the payload
+area = (s :: Shape) -&gt; Num =&gt; s ?
+  | Circle(r)  =&gt; 3 * r * r
+  | Rect(w, h) =&gt; w * h
+
+~ Result is just Ok / NotOk
+check = (n :: Num) -&gt; Result =&gt;
+  n &lt;= 100 ? Ok($) : NotOk(n)
+
+^ = () -&gt; $ =&gt; &lt;
+  print(area(Rect(6, 7)))   ~ 42
+  print(check(50) ?
+    | Ok(_)    =&gt; 0
+    | NotOk(c) =&gt; c)
+&gt;</code></pre>
+
+      <p class="release">
+        <a class="pill" href="https://github.com/assapir/quilon/releases/tag/v0.9.2"
+          >v0.9.2 &ldquo;Hegemon&rdquo;</a
+        >
       </p>
+
+      <p class="soon">The site is coming. The language is already here.</p>
 
       <p class="links">
         <a href="https://github.com/assapir/quilon">GitHub</a>
