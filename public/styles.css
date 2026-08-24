@@ -94,6 +94,12 @@ h1 img {
   font-style: italic;
 }
 
+/* The one coloured word in the sentence is "Colorless". That is the joke. */
+.subline b {
+  color: var(--claret);
+  font-weight: inherit;
+}
+
 .subline {
   margin: 0 auto 2.5rem;
   max-width: 31rem;
