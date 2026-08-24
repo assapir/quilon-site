@@ -1,5 +1,7 @@
-// Highlight the Quilon sample with the same grammar the VS Code extension uses,
+// Highlight every Quilon sample with the same grammar the VS Code extension uses,
 // so the colours here and in the editor cannot drift apart.
+//
+// The carousel itself is CSS — scroll-snap plus ::scroll-marker. No JS.
 
 import { highlight } from "./quilon-highlight.js";
 

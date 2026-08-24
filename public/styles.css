@@ -92,8 +92,86 @@ h1 img {
   text-wrap: balance;
 }
 
-pre {
+.examples {
   margin: 0 0 2.5rem;
+}
+
+/* A CSS carousel: scroll-snap for the track, ::scroll-marker for the labels.
+   No JavaScript. Where ::scroll-marker isn't supported the track still scrolls
+   and swipes — the labels are the only thing lost. */
+
+.examples ul {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  anchor-name: --track;
+  scroll-marker-group: after;
+}
+
+.examples ul::-webkit-scrollbar {
+  display: none;
+}
+
+.examples ul:focus-visible {
+  outline: 2px solid var(--claret);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.examples li {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  display: flex;
+}
+
+.examples li pre {
+  flex: 1;
+}
+
+/* The label markers. `content: attr(...)` puts the slide's own name on its dot. */
+.examples li::scroll-marker {
+  content: attr(data-label);
+  padding: 0.3rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.examples li::scroll-marker:hover {
+  color: var(--fg);
+  background: var(--code-bg);
+}
+
+.examples li::scroll-marker:target-current {
+  color: var(--claret);
+  border-color: var(--border);
+  background: var(--code-bg);
+}
+
+.examples li::scroll-marker:focus-visible {
+  outline: 2px solid var(--claret);
+  outline-offset: 2px;
+}
+
+.examples ul::scroll-marker-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+}
+
+pre {
+  margin: 0;
   padding: 1.35rem 1.5rem;
   overflow-x: auto;
   text-align: left;
@@ -104,9 +182,11 @@ pre {
 }
 
 code {
-  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo,
+  font-family: "Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
   font-size: 0.85rem;
+  /* Quilon is made of => -> |> :: := <= — the ligatures are the point. */
+  font-variant-ligatures: contextual common-ligatures;
 }
 
 .release {
