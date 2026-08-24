@@ -35,8 +35,8 @@
       </h1>
 
       <p class="tagline">
-        A statically-typed, symbol-based language that compiles to native and should
-        <em>make me laugh</em>.
+        A <b>statically-typed</b>, <b>symbol-based</b> language that compiles to
+        native and should <em>make me laugh</em>.
       </p>
       <p class="subline">
         Colorless concurrency on cooperative fibers — work runs when its data is
@@ -44,8 +44,20 @@
       </p>
 
       <section class="examples">
-        <ul tabindex="0" aria-label="Quilon examples — scroll or use the buttons below">
-          <li data-label="sum types">
+        <input type="radio" name="example" id="ex-1" checked />
+        <input type="radio" name="example" id="ex-2" />
+        <input type="radio" name="example" id="ex-3" />
+        <input type="radio" name="example" id="ex-4" />
+        <input type="radio" name="example" id="ex-5" />
+        <div class="picker" role="group" aria-label="Choose an example">
+          <label for="ex-1">sum types</label>
+          <label for="ex-2">pipes</label>
+          <label for="ex-3">text</label>
+          <label for="ex-4">closures</label>
+          <label for="ex-5">records</label>
+        </div>
+        <div class="panels">
+          <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
 ~ variants split by /, payloads optional
@@ -66,8 +78,8 @@ check = (n :: Num) -&gt; Result =&gt;
     | Ok(_)    =&gt; 0
     | NotOk(c) =&gt; c)
 &gt;</code></pre>
-          </li>
-          <li data-label="pipes">
+          </div>
+          <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
 ~ |&gt; feeds the left value in as the FIRST
@@ -79,8 +91,8 @@ addFive = (x :: Num) -&gt; Num =&gt; x + 5
   ~ the same as addFive(double(10))
   print(10 |&gt; double |&gt; addFive)   ~ 25
 &gt;</code></pre>
-          </li>
-          <li data-label="text">
+          </div>
+          <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
 ~ ` holes splice any expression in, and a
@@ -98,8 +110,8 @@ User = {
   u = User { name = &quot;Ada&quot;, age = 36 }
   print(&quot;hi `u`!&quot;)           ~ hi Ada (36)!
 &gt;</code></pre>
-          </li>
-          <li data-label="closures">
+          </div>
+          <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
 ~ the binding operator IS the capture mode.
@@ -119,8 +131,8 @@ User = {
   addBase = x =&gt; x + base
   print(addBase(5))   ~ 12
 &gt;</code></pre>
-          </li>
-          <li data-label="records">
+          </div>
+          <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
 ~ records carry methods; `it` is the instance
@@ -134,8 +146,8 @@ Counter = {
   c = Counter { value = 30 }
   print(c.bump(5))   ~ 35
 &gt;</code></pre>
-          </li>
-        </ul>
+          </div>
+        </div>
       </section>
 
       <p class="release">
