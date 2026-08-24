@@ -78,6 +78,13 @@ h1 {
   font-weight: 600;
 }
 
+.subline {
+  margin: -1.75rem auto 2.5rem;
+  max-width: 31rem;
+  color: #6f6f74;
+  font-size: 0.9rem;
+}
+
 pre {
   margin: 0;
   padding: 1.25rem 1.5rem;
