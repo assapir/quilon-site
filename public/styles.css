@@ -1,0 +1,175 @@
+/* quilon.run — coming soon. No framework, no build step. */
+
+:root {
+  /* Claret. Swap this one value to retune the whole page. */
+  --claret: #7f1734;
+  --claret-lift: #a8264c;
+
+  --bg: #0d0d0f; /* the logo tile */
+  --fg: #f2f0ee;
+  --fg-dim: #8b8b88;
+  --border: #262629;
+
+  /* Code, deliberately two-tone: claret carries the symbols, everything
+     else stays quiet. The page has one line of code; it does not need six
+     colours to read it. */
+  --ql-operator: var(--claret-lift);
+  --ql-control: var(--claret-lift);
+  --ql-type: var(--fg);
+  --ql-name: var(--fg);
+  --ql-number: var(--fg);
+  --ql-const: var(--fg);
+  --ql-string: var(--fg);
+  --ql-comment: #6f6f74;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1.5rem;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  width: 100%;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.logo {
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  display: block;
+  margin: 0 auto 1.75rem;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.75rem, 10vw, 3.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.tagline {
+  margin: 0 auto 2.5rem;
+  max-width: 30rem;
+  color: var(--fg-dim);
+  font-size: 1.05rem;
+}
+
+.tagline strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+pre {
+  margin: 0;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  text-align: left;
+  background: #141417;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--claret);
+  border-radius: 10px;
+}
+
+code {
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+  font-size: 1rem;
+}
+
+.caption {
+  margin: 0.75rem 0 2.5rem;
+  color: var(--fg-dim);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.status {
+  margin: 0 0 2rem;
+  color: var(--fg-dim);
+  font-size: 0.95rem;
+}
+
+.pill {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--claret);
+  color: #fff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+
+.links {
+  margin: 0;
+  color: var(--border);
+  font-size: 0.95rem;
+}
+
+.links a {
+  color: var(--fg-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  margin: 0 0.35rem;
+}
+
+.links a:hover,
+.links a:focus-visible {
+  color: var(--fg);
+  border-bottom-color: var(--claret-lift);
+}
+
+.links a:focus-visible {
+  outline: 2px solid var(--claret-lift);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- syntax highlighting ---- */
+
+.ql-comment {
+  color: var(--ql-comment);
+  font-style: italic;
+}
+.ql-string {
+  color: var(--ql-string);
+}
+.ql-number {
+  color: var(--ql-number);
+}
+.ql-const {
+  color: var(--ql-const);
+}
+.ql-operator {
+  color: var(--ql-operator);
+}
+.ql-control {
+  color: var(--ql-control);
+}
+.ql-type {
+  color: var(--ql-type);
+}
+.ql-name {
+  color: var(--ql-name);
+}
