@@ -30,15 +30,15 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-}
-
 body {
   margin: 0;
   display: grid;
   place-items: center;
+  /* min-height, never height: the page is taller than a phone viewport, and a
+     centred grid item that overflows a fixed-height container puts its top edge
+     above the scroll origin, where it cannot be reached. */
+  min-height: 100vh;
+  min-height: 100svh;
   padding: 3rem 1.5rem;
   background: var(--bg);
   color: var(--fg);
@@ -338,4 +338,28 @@ code {
 }
 .qn-name {
   color: var(--qn-name);
+}
+
+/* ---- narrow screens ---- */
+
+/* The samples run to ~45 columns. At the desktop size that overflows a phone
+   and every code block becomes its own sideways scroller; trimming the padding
+   and the type brings them inside the viewport instead. */
+@media (max-width: 30rem) {
+  body {
+    padding: 2rem 1rem;
+  }
+
+  pre {
+    padding: 1rem;
+  }
+
+  code {
+    font-size: 0.75rem;
+  }
+
+  /* Thumb-sized tabs. 0.3rem of padding is a 31px target. */
+  .picker label {
+    padding: 0.5rem 0.8rem;
+  }
 }
