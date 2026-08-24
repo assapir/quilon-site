@@ -343,27 +343,27 @@ code {
 /* ---- narrow screens ---- */
 
 /* The widest sample is 46 columns. Rather than pick a font size per breakpoint
-   and hope, the samples go full-bleed and the type is sized from the viewport,
-   so the longest line lands just inside the screen at any width and no code
-   block becomes a sideways scroller. overflow-x on pre stays as the backstop. */
+   and hope, the type is sized from the viewport, so the longest line lands just
+   inside the screen at any width and no code block becomes a sideways scroller.
+   The block keeps a gutter narrower than the prose, not none at all.
+   overflow-x on pre stays as the backstop. */
 @media (max-width: 34rem) {
   body {
     padding: 2rem 1rem;
   }
 
   .panels {
-    margin-inline: -1rem;
+    margin-inline: -0.25rem;
   }
 
   pre {
     padding: 1rem 0.75rem;
-    border-inline: 0;
-    border-radius: 0;
   }
 
   code {
-    /* 46 cols x 0.6em advance, against the viewport less the 1.5rem of gutter. */
-    font-size: min(0.8rem, calc((100vw - 1.5rem) / 28.5));
+    /* 46 cols x 0.6em advance, against the viewport less 3rem: 0.75rem of
+       gutter and 0.75rem of padding on each side. */
+    font-size: min(0.8rem, calc((100vw - 3rem) / 28.5));
   }
 
   /* Thumb-sized tabs. 0.3rem of padding is a 31px target. */
