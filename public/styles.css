@@ -342,20 +342,28 @@ code {
 
 /* ---- narrow screens ---- */
 
-/* The samples run to ~45 columns. At the desktop size that overflows a phone
-   and every code block becomes its own sideways scroller; trimming the padding
-   and the type brings them inside the viewport instead. */
-@media (max-width: 30rem) {
+/* The widest sample is 46 columns. Rather than pick a font size per breakpoint
+   and hope, the samples go full-bleed and the type is sized from the viewport,
+   so the longest line lands just inside the screen at any width and no code
+   block becomes a sideways scroller. overflow-x on pre stays as the backstop. */
+@media (max-width: 34rem) {
   body {
     padding: 2rem 1rem;
   }
 
+  .panels {
+    margin-inline: -1rem;
+  }
+
   pre {
-    padding: 1rem;
+    padding: 1rem 0.75rem;
+    border-inline: 0;
+    border-radius: 0;
   }
 
   code {
-    font-size: 0.75rem;
+    /* 46 cols x 0.6em advance, against the viewport less the 1.5rem of gutter. */
+    font-size: min(0.8rem, calc((100vw - 1.5rem) / 28.5));
   }
 
   /* Thumb-sized tabs. 0.3rem of padding is a 31px target. */
