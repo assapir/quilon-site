@@ -1,0 +1,341 @@
+/* quilon.run — coming soon. No framework, no build step. */
+
+:root {
+  /* Claret, light. One value drives every accent on the page. */
+  --claret: #a2194f;
+
+  --bg: #fbfaf8;
+  --code-bg: #f4f2ef;
+  --fg: #1a1a1c;
+  --fg-dim: #6b6b70;
+  --border: #e4e1dc;
+
+  /* Code colours are a claret ramp, not a rainbow — the sample should read as
+     part of the page. Every one clears 4.5:1 on --code-bg. */
+  --bordeaux: #6e1230;
+  --rose: #8a3d5c;
+  --mauve: #7a4a63;
+
+  --qn-operator: var(--claret);   /* = := -> => |> :: ? | / */
+  --qn-control: var(--claret);    /* ^ << >> */
+  --qn-type: var(--bordeaux);     /* Num, Text, Shape */
+  --qn-const: var(--rose);        /* $ Ok NotOk */
+  --qn-number: var(--rose);
+  --qn-string: var(--mauve);
+  --qn-name: var(--fg);           /* declared names stay plain */
+  --qn-comment: #6e6a61;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1.5rem;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  width: 100%;
+  max-width: 40rem;
+  text-align: center;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 0 0 1.25rem;
+  font-size: clamp(2.5rem, 9vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+h1 span {
+  color: var(--claret);
+}
+
+h1 img {
+  width: clamp(2.5rem, 9vw, 3.25rem);
+  height: clamp(2.5rem, 9vw, 3.25rem);
+  border-radius: 14px;
+  flex: none;
+}
+
+.tagline {
+  margin: 0 auto 0.6rem;
+  max-width: 31rem;
+  color: var(--fg);
+  font-size: 1.05rem;
+  text-wrap: balance;
+}
+
+.tagline em,
+.tagline b {
+  color: var(--claret);
+  font-weight: inherit;
+}
+
+.tagline em {
+  font-style: italic;
+}
+
+/* The one coloured word in the sentence is "Colorless". That is the joke. */
+.subline b {
+  color: var(--claret);
+  font-weight: inherit;
+}
+
+.subline {
+  margin: 0 auto 2.5rem;
+  max-width: 31rem;
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+  text-wrap: balance;
+}
+
+.examples {
+  margin: 0 0 2.5rem;
+}
+
+/* Radio + label tabs. No JavaScript, and no #hash — an anchor would make the
+   browser scroll the document to the slide, which jumps the page. Radios also
+   give arrow-key navigation for free. */
+
+.examples input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.picker label {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.picker label:hover {
+  color: var(--fg);
+  background: var(--code-bg);
+}
+
+/* Panels are stacked in one grid cell, so the box is always as tall as the
+   tallest example and switching never shifts the page. */
+.panels {
+  display: grid;
+}
+
+.panel {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+
+#ex-1:checked ~ .picker label[for="ex-1"],
+#ex-2:checked ~ .picker label[for="ex-2"],
+#ex-3:checked ~ .picker label[for="ex-3"],
+#ex-4:checked ~ .picker label[for="ex-4"],
+#ex-5:checked ~ .picker label[for="ex-5"] {
+  color: var(--claret);
+  border-color: var(--border);
+  background: var(--code-bg);
+}
+
+#ex-1:focus-visible ~ .picker label[for="ex-1"],
+#ex-2:focus-visible ~ .picker label[for="ex-2"],
+#ex-3:focus-visible ~ .picker label[for="ex-3"],
+#ex-4:focus-visible ~ .picker label[for="ex-4"],
+#ex-5:focus-visible ~ .picker label[for="ex-5"] {
+  outline: 2px solid var(--claret);
+  outline-offset: 2px;
+}
+
+#ex-1:checked ~ .panels .panel:nth-child(1),
+#ex-2:checked ~ .panels .panel:nth-child(2),
+#ex-3:checked ~ .panels .panel:nth-child(3),
+#ex-4:checked ~ .panels .panel:nth-child(4),
+#ex-5:checked ~ .panels .panel:nth-child(5) {
+  visibility: visible;
+}
+
+pre {
+  flex: 1;
+}
+
+/* The picker. Plain anchors, so it works in every browser — ::scroll-marker is
+   Chrome-only today, and a control nobody else can see is not a control. */
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.picker a {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.picker a:hover {
+  color: var(--fg);
+  background: var(--code-bg);
+}
+
+.picker a:focus-visible {
+  outline: 2px solid var(--claret);
+  outline-offset: 2px;
+}
+
+/* :target marks the slide the URL points at, so the label lights up with it. */
+.examples li:target ~ .picker a,
+.picker a:active {
+  color: var(--fg-dim);
+}
+
+pre {
+  margin: 0;
+  padding: 1.35rem 1.5rem;
+  overflow-x: auto;
+  text-align: left;
+  line-height: 1.7;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+code {
+  font-family: "Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+  font-size: 0.85rem;
+  /* Quilon is made of => -> |> :: := <= — the ligatures are the point. */
+  font-variant-ligatures: contextual common-ligatures;
+}
+
+.release {
+  margin: 0 0 1rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.55rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--claret);
+  color: #fff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.825rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pill:hover {
+  background: #8c1444;
+}
+
+.pill:active {
+  transform: translateY(1px);
+}
+
+.pill:focus-visible {
+  outline: 2px solid var(--claret);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pill {
+    transition: background-color 0.15s ease;
+  }
+}
+
+.soon {
+  margin: 0 0 2.5rem;
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+}
+
+.links {
+  margin: 0;
+  color: var(--border);
+  font-size: 0.9rem;
+}
+
+.links a {
+  color: var(--fg-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  margin: 0 0.35rem;
+}
+
+.links a:hover,
+.links a:focus-visible {
+  color: var(--fg);
+  border-bottom-color: var(--claret);
+}
+
+.links a:focus-visible {
+  outline: 2px solid var(--claret);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- syntax highlighting ---- */
+
+.qn-comment {
+  color: var(--qn-comment);
+  font-style: italic;
+}
+.qn-string {
+  color: var(--qn-string);
+}
+.qn-number {
+  color: var(--qn-number);
+}
+.qn-const {
+  color: var(--qn-const);
+}
+.qn-operator {
+  color: var(--qn-operator);
+}
+.qn-control {
+  color: var(--qn-control);
+}
+.qn-type {
+  color: var(--qn-type);
+}
+.qn-name {
+  color: var(--qn-name);
+}

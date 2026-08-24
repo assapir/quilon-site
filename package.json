@@ -1,0 +1,13 @@
+{
+  "name": "quilon-site",
+  "private": true,
+  "version": "0.0.1",
+  "description": "The website for the Quilon programming language",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.125.0"
+  }
+}

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quilon — a symbol-based language that should make you laugh</title>
+    <meta
+      name="description"
+      content="A statically-typed, symbol-based language that compiles to native and should make me laugh. Colorless concurrency on cooperative fibers."
+    />
+    <link rel="canonical" href="https://quilon.run/" />
+    <meta property="og:title" content="Quilon" />
+    <meta
+      property="og:description"
+      content="A statically-typed, symbol-based language that compiles to native and should make me laugh."
+    />
+    <meta property="og:url" content="https://quilon.run/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://quilon.run/icon.png" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/icon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>
+        <img src="/icon.png" alt="" width="64" height="64" />
+        <span>Quilon</span>
+      </h1>
+
+      <p class="tagline">
+        A <b>statically-typed</b>, <b>symbol-based</b> language that compiles to
+        native and should <em>make me laugh</em>.
+      </p>
+      <p class="subline">
+        <b>Colorless</b> concurrency on cooperative fibers — work runs when its data is
+        ready, not where it sits in the file.
+      </p>
+
+      <section class="examples">
+        <input type="radio" name="example" id="ex-1" checked />
+        <input type="radio" name="example" id="ex-2" />
+        <input type="radio" name="example" id="ex-3" />
+        <input type="radio" name="example" id="ex-4" />
+        <input type="radio" name="example" id="ex-5" />
+        <div class="picker" role="group" aria-label="Choose an example">
+          <label for="ex-1">sum types</label>
+          <label for="ex-2">pipes</label>
+          <label for="ex-3">text</label>
+          <label for="ex-4">closures</label>
+          <label for="ex-5">records</label>
+        </div>
+        <div class="panels">
+          <div class="panel">
+<pre><code class="language-quilon">&lt;&lt; core.io
+
+~ variants split by /, payloads optional
+Shape = Circle(Num) / Rect(Num, Num)
+
+~ ? and | match, and bind the payload
+area = (s :: Shape) -&gt; Num =&gt; s ?
+  | Circle(r)  =&gt; 3 * r * r
+  | Rect(w, h) =&gt; w * h
+
+~ Result is just Ok / NotOk
+check = (n :: Num) -&gt; Result =&gt;
+  n &lt;= 100 ? Ok($) : NotOk(n)
+
+^ = () -&gt; $ =&gt; &lt;
+  print(area(Rect(6, 7)))   ~ 42
+  print(check(50) ?
+    | Ok(_)    =&gt; 0
+    | NotOk(c) =&gt; c)
+&gt;</code></pre>
+          </div>
+          <div class="panel">
+<pre><code class="language-quilon">&lt;&lt; core.io
+
+~ |&gt; feeds the left value in as the FIRST
+~ argument of the call on its right
+double  = (x :: Num) -&gt; Num =&gt; x * 2
+addFive = (x :: Num) -&gt; Num =&gt; x + 5
+
+^ = () -&gt; $ =&gt; &lt;
+  ~ the same as addFive(double(10))
+  print(10 |&gt; double |&gt; addFive)   ~ 25
+&gt;</code></pre>
+          </div>
+          <div class="panel">
+<pre><code class="language-quilon">&lt;&lt; core.io
+
+~ ` holes splice any expression in, and a
+~ record can override how it renders
+User = {
+  name :: Text,
+  age :: Num,
+  ` = () -&gt; Text =&gt; &quot;`it.name` (`it.age`)&quot;
+}
+
+^ = () -&gt; $ =&gt; &lt;
+  print(&quot;half is `1 / 2`&quot;)   ~ half is 0.5
+  print(&quot;sum `1 + 2 + 3`&quot;)   ~ sum 6
+
+  u = User { name = &quot;Ada&quot;, age = 36 }
+  print(&quot;hi `u`!&quot;)           ~ hi Ada (36)!
+&gt;</code></pre>
+          </div>
+          <div class="panel">
+<pre><code class="language-quilon">&lt;&lt; core.io
+
+~ the binding operator IS the capture mode.
+~ no capture list, no marker.
+^ = () -&gt; $ =&gt; &lt;
+  ~ := captures by reference; writes escape
+  total := 0
+  bump = n =&gt; &lt;
+    total := total + n
+    total
+  &gt;
+  print(bump(10))     ~ 10
+  print(bump(20))     ~ 30
+
+  ~ = captures by value: a frozen copy
+  base = 7
+  addBase = x =&gt; x + base
+  print(addBase(5))   ~ 12
+&gt;</code></pre>
+          </div>
+          <div class="panel">
+<pre><code class="language-quilon">&lt;&lt; core.io
+
+~ records carry methods; `it` is the instance
+Counter = {
+  value :: Num,
+
+  bump = (by :: Num) -&gt; Num =&gt; it.value + by
+}
+
+^ = () -&gt; $ =&gt; &lt;
+  c = Counter { value = 30 }
+  print(c.bump(5))   ~ 35
+&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <p class="release">
+        <a class="pill" href="https://github.com/assapir/quilon/releases/tag/v0.9.2"
+          >v0.9.2 &ldquo;Hegemon&rdquo;</a
+        >
+      </p>
+
+      <p class="soon">The site is coming. The language is already here.</p>
+
+      <p class="links">
+        <a href="https://github.com/assapir/quilon">GitHub</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://github.com/assapir/quilon/blob/main/docs/LANGUAGE.md">Reference</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://sapir.io/blog/no-keywords-and-make-me-laugh/">Why it looks like this</a>
+      </p>
+    </main>
+
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
