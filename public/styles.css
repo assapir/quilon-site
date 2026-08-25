@@ -161,7 +161,8 @@ h1 img {
 #ex-2:checked ~ .picker label[for="ex-2"],
 #ex-3:checked ~ .picker label[for="ex-3"],
 #ex-4:checked ~ .picker label[for="ex-4"],
-#ex-5:checked ~ .picker label[for="ex-5"] {
+#ex-5:checked ~ .picker label[for="ex-5"],
+#ex-6:checked ~ .picker label[for="ex-6"] {
   color: var(--claret);
   border-color: var(--border);
   background: var(--code-bg);
@@ -171,7 +172,8 @@ h1 img {
 #ex-2:focus-visible ~ .picker label[for="ex-2"],
 #ex-3:focus-visible ~ .picker label[for="ex-3"],
 #ex-4:focus-visible ~ .picker label[for="ex-4"],
-#ex-5:focus-visible ~ .picker label[for="ex-5"] {
+#ex-5:focus-visible ~ .picker label[for="ex-5"],
+#ex-6:focus-visible ~ .picker label[for="ex-6"] {
   outline: 2px solid var(--claret);
   outline-offset: 2px;
 }
@@ -180,7 +182,8 @@ h1 img {
 #ex-2:checked ~ .panels .panel:nth-child(2),
 #ex-3:checked ~ .panels .panel:nth-child(3),
 #ex-4:checked ~ .panels .panel:nth-child(4),
-#ex-5:checked ~ .panels .panel:nth-child(5) {
+#ex-5:checked ~ .panels .panel:nth-child(5),
+#ex-6:checked ~ .panels .panel:nth-child(6) {
   visibility: visible;
 }
 
