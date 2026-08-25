@@ -312,6 +312,25 @@ code {
   border-radius: 2px;
 }
 
+/* The star link is the one call to action down here, so it carries the accent
+   colour while its neighbours stay dim. */
+.links a.star {
+  color: var(--claret);
+}
+
+/* Hidden until the count arrives from /api/stars — the link reads fine without
+   it, so a failed or slow fetch costs nothing but the number. */
+.star-count {
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--code-bg);
+  color: var(--fg-dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+}
+
 /* ---- syntax highlighting ---- */
 
 .qn-comment {

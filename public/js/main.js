@@ -10,3 +10,19 @@ for (const el of document.querySelectorAll("code.language-quilon")) {
   // highlight() escapes again as it wraps each token.
   el.innerHTML = highlight(el.textContent);
 }
+
+// The star count is decoration on a link that already works: if /api/stars is
+// slow, down, or over GitHub's rate limit, the badge simply never appears.
+const badge = document.querySelector("[data-star-count]");
+if (badge) {
+  try {
+    const res = await fetch("/api/stars");
+    const { stars } = res.ok ? await res.json() : {};
+    if (typeof stars === "number") {
+      badge.textContent = stars.toLocaleString();
+      badge.hidden = false;
+    }
+  } catch {
+    // Offline or blocked. Nothing to show and nothing to say about it.
+  }
+}
