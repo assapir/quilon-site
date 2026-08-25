@@ -161,7 +161,8 @@ h1 img {
 #ex-2:checked ~ .picker label[for="ex-2"],
 #ex-3:checked ~ .picker label[for="ex-3"],
 #ex-4:checked ~ .picker label[for="ex-4"],
-#ex-5:checked ~ .picker label[for="ex-5"] {
+#ex-5:checked ~ .picker label[for="ex-5"],
+#ex-6:checked ~ .picker label[for="ex-6"] {
   color: var(--claret);
   border-color: var(--border);
   background: var(--code-bg);
@@ -171,7 +172,8 @@ h1 img {
 #ex-2:focus-visible ~ .picker label[for="ex-2"],
 #ex-3:focus-visible ~ .picker label[for="ex-3"],
 #ex-4:focus-visible ~ .picker label[for="ex-4"],
-#ex-5:focus-visible ~ .picker label[for="ex-5"] {
+#ex-5:focus-visible ~ .picker label[for="ex-5"],
+#ex-6:focus-visible ~ .picker label[for="ex-6"] {
   outline: 2px solid var(--claret);
   outline-offset: 2px;
 }
@@ -180,7 +182,8 @@ h1 img {
 #ex-2:checked ~ .panels .panel:nth-child(2),
 #ex-3:checked ~ .panels .panel:nth-child(3),
 #ex-4:checked ~ .panels .panel:nth-child(4),
-#ex-5:checked ~ .panels .panel:nth-child(5) {
+#ex-5:checked ~ .panels .panel:nth-child(5),
+#ex-6:checked ~ .panels .panel:nth-child(6) {
   visibility: visible;
 }
 
@@ -298,6 +301,9 @@ code {
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
   margin: 0 0.35rem;
+  /* A narrow screen wraps BETWEEN links, never inside one — "Why it looks like
+     this" moves as a phrase instead of shedding a word onto the next line. */
+  white-space: nowrap;
 }
 
 .links a:hover,
@@ -310,6 +316,19 @@ code {
   outline: 2px solid var(--claret);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* Hidden until the count arrives from /api/stars — the link reads fine without
+   it, so a failed or slow fetch costs nothing but the number. */
+.star-count {
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--code-bg);
+  color: var(--fg-dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
 }
 
 /* ---- syntax highlighting ---- */
@@ -362,7 +381,10 @@ code {
 
   code {
     /* 46 cols x 0.6em advance, against the viewport less 3rem: 0.75rem of
-       gutter and 0.75rem of padding on each side. */
+       gutter and 0.75rem of padding on each side. A sample WIDER than 46
+       columns overflows this, and because the body is a centred grid the
+       overflow shows up as a phantom gutter down the left of the whole
+       page — keep every panel inside the budget. */
     font-size: min(0.8rem, calc((100vw - 3rem) / 28.5));
   }
 
