@@ -312,12 +312,6 @@ code {
   border-radius: 2px;
 }
 
-/* The star link is the one call to action down here, so it carries the accent
-   colour while its neighbours stay dim. */
-.links a.star {
-  color: var(--claret);
-}
-
 /* Hidden until the count arrives from /api/stars — the link reads fine without
    it, so a failed or slow fetch costs nothing but the number. */
 .star-count {
