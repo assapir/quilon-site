@@ -301,6 +301,9 @@ code {
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
   margin: 0 0.35rem;
+  /* A narrow screen wraps BETWEEN links, never inside one — "Why it looks like
+     this" moves as a phrase instead of shedding a word onto the next line. */
+  white-space: nowrap;
 }
 
 .links a:hover,
