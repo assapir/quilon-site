@@ -381,7 +381,10 @@ code {
 
   code {
     /* 46 cols x 0.6em advance, against the viewport less 3rem: 0.75rem of
-       gutter and 0.75rem of padding on each side. */
+       gutter and 0.75rem of padding on each side. A sample WIDER than 46
+       columns overflows this, and because the body is a centred grid the
+       overflow shows up as a phantom gutter down the left of the whole
+       page — keep every panel inside the budget. */
     font-size: min(0.8rem, calc((100vw - 3rem) / 28.5));
   }
 

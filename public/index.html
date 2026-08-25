@@ -160,7 +160,8 @@ pause = (s :: Num) -&gt; $ =&gt; @sleep(s)
 
 ^ = () -&gt; $ =&gt; &lt;
   start = now()
-  pause(0.05)   ~ parks the fiber, not the thread
+  ~ parks the fiber, not the thread
+  pause(0.05)
   print(&quot;`now() - start &gt;= 0.05`&quot;)   ~ True
 &gt;</code></pre>
           </div>
