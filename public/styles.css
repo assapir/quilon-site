@@ -1,4 +1,4 @@
-/* quilon.run — coming soon. No framework, no build step. */
+/* quilon.run. No framework, no build step. */
 
 :root {
   /* Claret, light. One value drives every accent on the page. */
@@ -191,41 +191,6 @@ pre {
   flex: 1;
 }
 
-/* The picker. Plain anchors, so it works in every browser — ::scroll-marker is
-   Chrome-only today, and a control nobody else can see is not a control. */
-.picker {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.25rem;
-  margin-bottom: 0.75rem;
-}
-
-.picker a {
-  padding: 0.3rem 0.7rem;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  color: var(--fg-dim);
-  font-size: 0.8rem;
-  text-decoration: none;
-}
-
-.picker a:hover {
-  color: var(--fg);
-  background: var(--code-bg);
-}
-
-.picker a:focus-visible {
-  outline: 2px solid var(--claret);
-  outline-offset: 2px;
-}
-
-/* :target marks the slide the URL points at, so the label lights up with it. */
-.examples li:target ~ .picker a,
-.picker a:active {
-  color: var(--fg-dim);
-}
-
 pre {
   margin: 0;
   padding: 1.35rem 1.5rem;
@@ -283,11 +248,6 @@ code {
   }
 }
 
-.soon {
-  margin: 0 0 2.5rem;
-  color: var(--fg-dim);
-  font-size: 0.85rem;
-}
 
 .links {
   margin: 0;
