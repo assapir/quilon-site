@@ -188,10 +188,6 @@ h1 img {
 }
 
 pre {
-  flex: 1;
-}
-
-pre {
   margin: 0;
   padding: 1.35rem 1.5rem;
   overflow-x: auto;
