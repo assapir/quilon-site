@@ -40,7 +40,7 @@
       </p>
       <p class="subline">
         <b>Colorless</b> concurrency on cooperative fibers — work runs when its data is
-        ready, not where it sits in the file.
+        ready, wherever it sits in the file.
       </p>
 
       <section class="examples">
@@ -82,7 +82,7 @@ User = {
 <pre><code class="language-quilon">&lt;&lt; core.io
 
 ~ lo &lt;- hi is an inclusive range; fed straight
-~ to an array method it counts, allocating nothing
+~ to an array method it counts in place
 sumTo = (n :: Num) -&gt; Num =&gt; &lt;
   (1 &lt;- n).reduce(0, (acc, x) =&gt; acc + x)
 &gt;
@@ -90,7 +90,7 @@ sumTo = (n :: Num) -&gt; Num =&gt; &lt;
 ^ = () -&gt; $ =&gt; &lt;
   (1 &lt;- 3).each(i =&gt; io.print(&quot;tick `i`&quot;))
   io.print(sumTo(100))         ~ 5050
-  io.print(sumTo(100000000))   ~ 5000000050000000, no 800 MB array
+  io.print(sumTo(100000000))   ~ 5000000050000000
 &gt;</code></pre>
           </div>
           <div class="panel">
@@ -163,14 +163,14 @@ check = (n :: Num) -&gt; Result =&gt; &lt;
 <pre><code class="language-quilon">&lt;&lt; core.io
 &lt;&lt; core.time
 
-~ no async. no await. no spawn. @ marks the
-~ leaf IO primitive, and nothing else — code
-~ that calls it stays completely unmarked
+~ @ marks the leaf IO primitive alone; every
+~ function that calls it stays plain code,
+~ the same shape as any other
 pause = (s :: Num) -&gt; $ =&gt; &lt; @sleep(s) &gt;
 
 ^ = () -&gt; $ =&gt; &lt;
   start = time.now()
-  ~ parks the fiber, not the thread
+  ~ parks the fiber; the thread keeps working
   pause(0.05)
   io.print(&quot;`time.now() - start &gt;= 0.05`&quot;)   ~ True
 &gt;</code></pre>
