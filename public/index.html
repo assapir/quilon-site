@@ -52,7 +52,7 @@
         <input type="radio" name="example" id="ex-6" />
         <div class="picker" role="group" aria-label="Choose an example">
           <label for="ex-1">text</label>
-          <label for="ex-2">pipes</label>
+          <label for="ex-2">ranges</label>
           <label for="ex-3">records</label>
           <label for="ex-4">closures</label>
           <label for="ex-5">sum types</label>
@@ -67,64 +67,72 @@
 User = {
   name :: Text,
   age :: Num,
-  ` = () -&gt; Text =&gt; &quot;`it.name` (`it.age`)&quot;
+  ` = () -&gt; Text =&gt; &lt; &quot;`it.name` (`it.age`)&quot; &gt;
 }
 
 ^ = () -&gt; $ =&gt; &lt;
-  print(&quot;half is `1 / 2`&quot;)   ~ half is 0.5
-  print(&quot;sum `1 + 2 + 3`&quot;)   ~ sum 6
+  io.print(&quot;half is `1 / 2`&quot;)   ~ half is 0.5
+  io.print(&quot;sum `1 + 2 + 3`&quot;)   ~ sum 6
 
   u = User { name = &quot;Ada&quot;, age = 36 }
-  print(&quot;hi `u`!&quot;)           ~ hi Ada (36)!
+  io.print(&quot;hi `u`!&quot;)           ~ hi Ada (36)!
 &gt;</code></pre>
           </div>
           <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
-~ |&gt; feeds the left value in as the FIRST
-~ argument of the call on its right
-double  = (x :: Num) -&gt; Num =&gt; x * 2
-addFive = (x :: Num) -&gt; Num =&gt; x + 5
+~ lo &lt;- hi is an inclusive range; fed straight
+~ to an array method it counts, allocating nothing
+sumTo = (n :: Num) -&gt; Num =&gt; &lt;
+  (1 &lt;- n).reduce(0, (acc, x) =&gt; acc + x)
+&gt;
 
 ^ = () -&gt; $ =&gt; &lt;
-  ~ the same as addFive(double(10))
-  print(10 |&gt; double |&gt; addFive)   ~ 25
+  (1 &lt;- 3).each(i =&gt; io.print(&quot;tick `i`&quot;))
+  io.print(sumTo(100))         ~ 5050
+  io.print(sumTo(100000000))   ~ 5000000050000000, no 800 MB array
 &gt;</code></pre>
           </div>
           <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
-~ records carry methods; `it` is the instance
+~ records carry methods; `it` is the instance.
+~ := declares a setter; = methods are verified
+~ non-mutating
 Counter = {
   value :: Num,
 
-  bump = (by :: Num) -&gt; Num =&gt; it.value + by
+  bump := (by :: Num) =&gt; &lt; it.value := it.value + by &gt;,
+  peek = () -&gt; Num =&gt; &lt; it.value &gt;
 }
 
 ^ = () -&gt; $ =&gt; &lt;
-  c = Counter { value = 30 }
-  print(c.bump(5))   ~ 35
+  c := Counter { value = 30 }
+  c.bump(5)
+  io.print(c.peek())   ~ 35
 &gt;</code></pre>
           </div>
           <div class="panel">
 <pre><code class="language-quilon">&lt;&lt; core.io
 
-~ the binding operator IS the capture mode.
-~ no capture list, no marker.
-^ = () -&gt; $ =&gt; &lt;
-  ~ := captures by reference; writes escape
-  total := 0
-  bump = n =&gt; &lt;
-    total := total + n
-    total
+~ the binding operator IS the capture mode,
+~ and a function may hand a closure back
+mkCounter = () -&gt; () -&gt; Num =&gt; &lt;
+  count := 0                ~ := captures by reference
+  () -&gt; Num =&gt; &lt;
+    count := count + 1
+    count
   &gt;
-  print(bump(10))     ~ 10
-  print(bump(20))     ~ 30
+&gt;
 
-  ~ = captures by value: a frozen copy
-  base = 7
-  addBase = x =&gt; x + base
-  print(addBase(5))   ~ 12
+adder = (n :: Num) -&gt; (Num) -&gt; Num =&gt; &lt; (x) =&gt; x + n &gt;
+
+^ = () -&gt; $ =&gt; &lt;
+  tick = mkCounter()
+  tick()
+  io.print(tick())          ~ 2
+  add5 = adder(5)           ~ = captures by value
+  io.print(add5(37))        ~ 42
 &gt;</code></pre>
           </div>
           <div class="panel">
@@ -134,17 +142,19 @@ Counter = {
 Shape = Circle(Num) / Rect(Num, Num)
 
 ~ ? and | match, and bind the payload
-area = (s :: Shape) -&gt; Num =&gt; s ?
+area = (s :: Shape) -&gt; Num =&gt; &lt; s ?
   | Circle(r)  =&gt; 3 * r * r
   | Rect(w, h) =&gt; w * h
+&gt;
 
-~ Result is just Ok / NotOk
-check = (n :: Num) -&gt; Result =&gt;
+~ Result is a normal sum type: Ok / NotOk
+check = (n :: Num) -&gt; Result =&gt; &lt;
   n &lt;= 100 ? Ok($) : NotOk(n)
+&gt;
 
 ^ = () -&gt; $ =&gt; &lt;
-  print(area(Rect(6, 7)))   ~ 42
-  print(check(50) ?
+  io.print(area(Rect(6, 7)))   ~ 42
+  io.print(check(50) ?
     | Ok(_)    =&gt; 0
     | NotOk(c) =&gt; c)
 &gt;</code></pre>
@@ -156,13 +166,13 @@ check = (n :: Num) -&gt; Result =&gt;
 ~ no async. no await. no spawn. @ marks the
 ~ leaf IO primitive, and nothing else — code
 ~ that calls it stays completely unmarked
-pause = (s :: Num) -&gt; $ =&gt; @sleep(s)
+pause = (s :: Num) -&gt; $ =&gt; &lt; @sleep(s) &gt;
 
 ^ = () -&gt; $ =&gt; &lt;
-  start = now()
+  start = time.now()
   ~ parks the fiber, not the thread
   pause(0.05)
-  print(&quot;`now() - start &gt;= 0.05`&quot;)   ~ True
+  io.print(&quot;`time.now() - start &gt;= 0.05`&quot;)   ~ True
 &gt;</code></pre>
           </div>
         </div>
@@ -171,10 +181,10 @@ pause = (s :: Num) -&gt; $ =&gt; @sleep(s)
       <p class="release">
         <a
           class="pill"
-          href="https://github.com/assapir/quilon/releases/tag/v0.9.3"
+          href="https://github.com/assapir/quilon/releases/tag/v0.10.0"
           target="_blank"
           rel="noopener"
-          >v0.9.3 &ldquo;Hegemon&rdquo;</a
+          >v0.10.0 &ldquo;Demosthenes&rdquo;</a
         >
       </p>
 
