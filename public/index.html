@@ -6,7 +6,7 @@
     <title>Quilon — a symbol-based language that should make you laugh</title>
     <meta
       name="description"
-      content="A statically-typed, symbol-based language that compiles to native and should make me laugh. Colorless concurrency on cooperative fibers."
+      content="A statically-typed, symbol-based language that compiles to native and should make me laugh, for Linux and macOS. Colorless concurrency on cooperative fibers."
     />
     <link rel="canonical" href="https://quilon.run/" />
     <meta property="og:title" content="Quilon" />
@@ -50,6 +50,8 @@
         <input type="radio" name="example" id="ex-4" />
         <input type="radio" name="example" id="ex-5" />
         <input type="radio" name="example" id="ex-6" />
+        <input type="radio" name="example" id="ex-7" />
+        <input type="radio" name="example" id="ex-8" />
         <div class="picker" role="group" aria-label="Choose an example">
           <label for="ex-1">text</label>
           <label for="ex-2">ranges</label>
@@ -57,6 +59,8 @@
           <label for="ex-4">closures</label>
           <label for="ex-5">sum types</label>
           <label for="ex-6">concurrency</label>
+          <label for="ex-7">http</label>
+          <label for="ex-8">tests</label>
         </div>
         <div class="panels">
           <div class="panel">
@@ -175,6 +179,41 @@ pause = (s :: Num) -&gt; $ =&gt; &lt; @sleep(s) &gt;
   io.print(&quot;`time.now() - start &gt;= 0.05`&quot;)   ~ True
 &gt;</code></pre>
           </div>
+          <div class="panel">
+<pre><code class="language-quilon">&lt;&lt; core.io
+&lt;&lt; core.http
+
+~ Request.get builds it, send() answers Ok / NotOk:
+~ a network failure is a value to match, not a crash
+show = (page :: http.Response) -&gt; $ =&gt; &lt;
+  io.print(page.status())                        ~ 200
+  io.print(page.headers().get(&quot;Content-Type&quot;) ?
+    | Ok(t)    =&gt; t                              ~ text/html
+    | NotOk(_) =&gt; &quot;no content type&quot;)
+  io.print(page.body().contains(&quot;Example Domain&quot;))   ~ True
+&gt;
+
+^ = () -&gt; $ =&gt; &lt;
+  http.Request.get(&quot;http://example.com/&quot;).send() ?
+    | Ok(page)   =&gt; show(page)
+    | NotOk(err) =&gt; io.eprint(&quot;no luck: `err`&quot;)
+&gt;</code></pre>
+          </div>
+          <div class="panel">
+<pre><code class="language-quilon">&lt;&lt; core.io
+&lt;&lt; core.test
+
+~ tests sit beside the code they check: `quilon test`
+~ runs the blocks, every other command erases them
+double = (n :: Num) -&gt; Num =&gt; &lt; n * 2 &gt;
+
+test.describe(&quot;double&quot;, () =&gt; &lt;
+  test.it(&quot;doubles&quot;, () =&gt; expect(double(21), equals(42)))
+  test.it(&quot;keeps zero&quot;, () =&gt; expect(double(0), equals(0)))
+&gt;)
+
+^ = () -&gt; $ =&gt; &lt; io.print(double(4)) &gt;   ~ 8</code></pre>
+          </div>
         </div>
       </section>
 
@@ -185,6 +224,15 @@ pause = (s :: Num) -&gt; $ =&gt; &lt; @sleep(s) &gt;
           target="_blank"
           rel="noopener"
           >v0.10.0 &ldquo;Demosthenes&rdquo;</a
+        >
+        <span class="platforms"
+          >Native binaries for Linux (x86_64, aarch64) and macOS (Apple silicon) &mdash;
+          <a
+            href="https://github.com/assapir/quilon/releases/latest"
+            target="_blank"
+            rel="noopener"
+            >download</a
+          ></span
         >
       </p>
 
