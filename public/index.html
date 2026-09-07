@@ -1,262 +1,229 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quilon — a symbol-based language that should make you laugh</title>
-    <meta
-      name="description"
-      content="A statically-typed, symbol-based language that compiles to native and should make me laugh, for Linux and macOS. Colorless concurrency on cooperative fibers."
-    />
-    <link rel="canonical" href="https://quilon.run/" />
-    <meta property="og:title" content="Quilon" />
-    <meta
-      property="og:description"
-      content="A statically-typed, symbol-based language that compiles to native and should make me laugh."
-    />
-    <meta property="og:url" content="https://quilon.run/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://quilon.run/icon.png" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="icon" href="/icon.png" type="image/png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <main>
-      <h1>
-        <img src="/icon.png" alt="" width="64" height="64" />
-        <span>Quilon</span>
-      </h1>
 
-      <p class="tagline">
-        A <b>statically-typed</b>, <b>symbol-based</b> language that compiles to
-        native and should <em>make me laugh</em>.
-      </p>
-      <p class="subline">
-        <b>Colorless</b> concurrency on cooperative fibers — work runs when its data is
-        ready, wherever it sits in the file.
-      </p>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quilon — a symbol-based language that should make me laugh</title>
+  <meta name="description"
+    content="A statically-typed, symbol-based language that compiles to native and should make me laugh, for Linux and macOS. Colorless concurrency on cooperative fibers." />
+  <link rel="canonical" href="https://quilon.run/" />
+  <meta property="og:title" content="Quilon" />
+  <meta property="og:description"
+    content="A statically-typed, symbol-based language that compiles to native and should make me laugh." />
+  <meta property="og:url" content="https://quilon.run/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://quilon.run/icon.png" />
+  <meta property="og:image:alt" content="Quilon logo" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Quilon" />
+  <meta name="twitter:description"
+    content="A statically-typed, symbol-based language that compiles to native and should make me laugh." />
+  <meta name="twitter:image" content="https://quilon.run/icon.png" />
+  <link rel="icon" href="/icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
 
-      <section class="examples">
-        <input type="radio" name="example" id="ex-1" checked />
-        <input type="radio" name="example" id="ex-2" />
-        <input type="radio" name="example" id="ex-3" />
-        <input type="radio" name="example" id="ex-4" />
-        <input type="radio" name="example" id="ex-5" />
-        <input type="radio" name="example" id="ex-6" />
-        <input type="radio" name="example" id="ex-7" />
-        <input type="radio" name="example" id="ex-8" />
-        <div class="picker" role="group" aria-label="Choose an example">
-          <label for="ex-1">text</label>
-          <label for="ex-2">ranges</label>
-          <label for="ex-3">records</label>
-          <label for="ex-4">closures</label>
-          <label for="ex-5">sum types</label>
-          <label for="ex-6">concurrency</label>
-          <label for="ex-7">http</label>
-          <label for="ex-8">tests</label>
+<body>
+  <main>
+    <h1>
+      <img src="/icon.png" alt="" width="64" height="64" />
+      <span>Quilon</span>
+    </h1>
+
+    <p class="tagline">
+      A <b>statically-typed</b>, <b>symbol-based</b> language that compiles to
+      native and should <em>make me laugh</em>.
+    </p>
+    <p class="subline">
+      <b>Colorless</b> deferred I/O on cooperative fibers — ordinary typed values,
+      waiting when used. The runtime is still growing.
+    </p>
+
+    <fieldset class="examples">
+      <legend class="visually-hidden">Choose an example</legend>
+      <div class="picker">
+        <label><input type="radio" name="example" id="ex-rendering" aria-controls="panel-rendering"
+            checked />rendering</label>
+        <label><input type="radio" name="example" id="ex-tickets" aria-controls="panel-tickets" />closures</label>
+        <label><input type="radio" name="example" id="ex-pizza" aria-controls="panel-pizza" />set algebra</label>
+        <label><input type="radio" name="example" id="ex-parcel" aria-controls="panel-parcel" />sum types</label>
+        <label><input type="radio" name="example" id="ex-keys" aria-controls="panel-keys" />operators</label>
+        <label><input type="radio" name="example" id="ex-input" aria-controls="panel-input" />deferred I/O</label>
+        <label><input type="radio" name="example" id="ex-tests" aria-controls="panel-tests" />tests</label>
+      </div>
+      <template id="example-tools">
+        <div class="example-tools">
+          <span class="copy-status" role="status" aria-live="polite"></span>
+          <button class="copy-example" type="button">Copy</button>
         </div>
-        <div class="panels">
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
+      </template>
+      <div class="panels">
+        <section class="panel" id="panel-rendering" aria-labelledby="title-rendering">
+          <h2 id="title-rendering">Custom rendering</h2>
+          <p class="example-description">Define how a record renders once; interpolation and output use it everywhere.
+          </p>
+          <pre><code class="language-quilon">&lt;&lt; core.io
 
-~ ` holes splice any expression in, and a
-~ record can override how it renders
 User = {
   name :: Text,
-  age :: Num,
-  ` = () -&gt; Text =&gt; &lt; &quot;`it.name` (`it.age`)&quot; &gt;
+  ` = () -&gt; Text =&gt; &lt; &quot;@`it.name`&quot; &gt;
 }
 
 ^ = () -&gt; $ =&gt; &lt;
-  io.print(&quot;half is `1 / 2`&quot;)   ~ half is 0.5
-  io.print(&quot;sum `1 + 2 + 3`&quot;)   ~ sum 6
-
-  u = User { name = &quot;Ada&quot;, age = 36 }
-  io.print(&quot;hi `u`!&quot;)           ~ hi Ada (36)!
+  ada = User { name = &quot;ada&quot; }
+  io.print(&quot;hello, `ada`&quot;)   ~ hello, @ada
+  io.print(ada)             ~ @ada
 &gt;</code></pre>
-          </div>
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
+        </section>
+        <section class="panel" id="panel-tickets" aria-labelledby="title-tickets">
+          <h2 id="title-tickets">Closures</h2>
+          <p class="example-description">Return a function that remembers its discount. Each closure captures its own
+            value—no mutable state needed.</p>
+          <pre><code class="language-quilon">&lt;&lt; core.io
 
-~ lo &lt;- hi is an inclusive range; fed straight
-~ to an array method it counts in place
-sumTo = (n :: Num) -&gt; Num =&gt; &lt;
-  (1 &lt;- n).reduce(0, (acc, x) =&gt; acc + x)
+discount = (off :: Num) -&gt; (Num) -&gt; Num =&gt; &lt;
+  (price) =&gt; price - off
 &gt;
 
 ^ = () -&gt; $ =&gt; &lt;
-  (1 &lt;- 3).each(i =&gt; io.print(&quot;tick `i`&quot;))
-  io.print(sumTo(100))         ~ 5050
-  io.print(sumTo(100000000))   ~ 5000000050000000
+  sale = discount(20)
+  member = discount(10)
+  io.print(sale(100))     ~ 80
+  io.print(member(100))   ~ 90
+  io.print(sale(100))     ~ still 80
 &gt;</code></pre>
-          </div>
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
-
-~ records carry methods; `it` is the instance.
-~ := declares a setter; = methods are verified
-~ non-mutating
-Counter = {
-  value :: Num,
-
-  bump := (by :: Num) =&gt; &lt; it.value := it.value + by &gt;,
-  peek = () -&gt; Num =&gt; &lt; it.value &gt;
-}
+        </section>
+        <section class="panel" id="panel-pizza" aria-labelledby="title-pizza">
+          <h2 id="title-pizza">Set algebra</h2>
+          <p class="example-description">Intersection finds common ground. Union and difference settle the rest—without
+            changing either set.</p>
+          <pre><code class="language-quilon">&lt;&lt; core.io
 
 ^ = () -&gt; $ =&gt; &lt;
-  c := Counter { value = 30 }
-  c.bump(5)
-  io.print(c.peek())   ~ 35
-&gt;</code></pre>
-          </div>
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
+  ~ this is how you create a set
+  ada = [|&quot;mushrooms&quot;, &quot;olives&quot;|]
+  lin = [|&quot;olives&quot;, &quot;peppers&quot;|]
 
-~ the binding operator IS the capture mode,
-~ and a function may hand a closure back
-mkCounter = () -&gt; () -&gt; Num =&gt; &lt;
-  count := 0                ~ := captures by reference
-  () -&gt; Num =&gt; &lt;
-    count := count + 1
-    count
+  shared = ada +- lin
+  menu = ada + lin
+  onlyAda = ada - lin
+
+  io.print(shared.has(&quot;olives&quot;))   ~ True
+  io.print(menu.size)              ~ 3
+  io.print(onlyAda.has(&quot;mushrooms&quot;)) ~ True
+&gt;</code></pre>
+        </section>
+        <section class="panel" id="panel-parcel" aria-labelledby="title-parcel">
+          <h2 id="title-parcel">Sum types</h2>
+          <p class="example-description">A sum type carries its data and its own rendering; the match covers every
+            possible state.</p>
+          <pre><code class="language-quilon">&lt;&lt; core.io
+
+Parcel = Queued / Moving(Text) / Delivered {
+  ` = () -&gt; Text =&gt; &lt;
+    it ?
+      | Queued =&gt; &quot;packing your things&quot;
+      | Moving(city) =&gt; &quot;next stop: `city`&quot;
+      | Delivered =&gt; &quot;check the doorstep&quot;
   &gt;
-&gt;
-
-adder = (n :: Num) -&gt; (Num) -&gt; Num =&gt; &lt; (x) =&gt; x + n &gt;
+}
 
 ^ = () -&gt; $ =&gt; &lt;
-  tick = mkCounter()
-  tick()
-  io.print(tick())          ~ 2
-  add5 = adder(5)           ~ = captures by value
-  io.print(add5(37))        ~ 42
+  parcel = Moving(&quot;Oslo&quot;)
+  io.print(&quot;order: `parcel`&quot;)
+  ~ order: next stop: Oslo
 &gt;</code></pre>
-          </div>
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
+        </section>
+        <section class="panel" id="panel-keys" aria-labelledby="title-keys">
+          <h2 id="title-keys">Operator overloading</h2>
+          <p class="example-description">Give a record equality and a hash with <code>==</code> and <code>%</code>; sets
+            recognize equivalent values.</p>
+          <pre><code class="language-quilon">&lt;&lt; core.io
 
-~ variants split by /, payloads optional
-Shape = Circle(Num) / Rect(Num, Num)
-
-~ ? and | match, and bind the payload
-area = (s :: Shape) -&gt; Num =&gt; &lt; s ?
-  | Circle(r)  =&gt; 3 * r * r
-  | Rect(w, h) =&gt; w * h
-&gt;
-
-~ Result is a normal sum type: Ok / NotOk
-check = (n :: Num) -&gt; Result =&gt; &lt;
-  n &lt;= 100 ? Ok($) : NotOk(n)
-&gt;
+Point = {
+  x :: Num, y :: Num,
+  == = (p :: Point) -&gt; Bool =&gt; &lt;
+    it.x == p.x &amp;&amp; it.y == p.y
+  &gt;,
+  % = () -&gt; Num =&gt; &lt; it.x * 31 + it.y &gt;
+}
 
 ^ = () -&gt; $ =&gt; &lt;
-  io.print(area(Rect(6, 7)))   ~ 42
-  io.print(check(50) ?
-    | Ok(_)    =&gt; 0
-    | NotOk(c) =&gt; c)
+  a = Point { x = 3, y = 4 }
+  b = Point { x = 3, y = 4 }
+  visited = [|a, b|]
+  io.print(visited.size)   ~ 1
 &gt;</code></pre>
-          </div>
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
-&lt;&lt; core.time
+        </section>
+        <section class="panel" id="panel-input" aria-labelledby="title-input">
+          <h2 id="title-input">Deferred I/O</h2>
+          <p class="example-description">The read starts immediately. Its ordinary <code>Text</code> value waits when
+            compared—no async function signature.</p>
+          <pre><code class="language-quilon">&lt;&lt; core.io
 
-~ @ marks the leaf IO primitive alone; every
-~ function that calls it stays plain code,
-~ the same shape as any other
-pause = (s :: Num) -&gt; $ =&gt; &lt; @sleep(s) &gt;
-
-^ = () -&gt; $ =&gt; &lt;
-  start = time.now()
-  ~ parks the fiber; the thread keeps working
-  pause(0.05)
-  io.print(&quot;`time.now() - start &gt;= 0.05`&quot;)   ~ True
-&gt;</code></pre>
-          </div>
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
-&lt;&lt; core.http
-
-~ Request.get builds it, send() answers Ok / NotOk:
-~ a network failure is a value to match, not a crash
-show = (page :: http.Response) -&gt; $ =&gt; &lt;
-  io.print(page.status())                        ~ 200
-  io.print(page.headers().get(&quot;Content-Type&quot;) ?
-    | Ok(t)    =&gt; t                              ~ text/html
-    | NotOk(_) =&gt; &quot;no content type&quot;)
-  io.print(page.body().contains(&quot;Example Domain&quot;))   ~ True
+greet = (name :: Text) -&gt; $ =&gt; &lt;
+  name == &quot;&quot; ?
+    io.print(&quot;hello, stranger&quot;) :
+    io.print(&quot;hello, `name`&quot;)
 &gt;
 
 ^ = () -&gt; $ =&gt; &lt;
-  http.Request.get(&quot;http://example.com/&quot;).send() ?
-    | Ok(page)   =&gt; show(page)
-    | NotOk(err) =&gt; io.eprint(&quot;no luck: `err`&quot;)
+  name = @readStdin()
+  io.print(&quot;What should I call you?&quot;)
+  greet(name)
+  ~ Type Ada, press Enter: hello, Ada
 &gt;</code></pre>
-          </div>
-          <div class="panel">
-<pre><code class="language-quilon">&lt;&lt; core.io
+        </section>
+        <section class="panel" id="panel-tests" aria-labelledby="title-tests">
+          <h2 id="title-tests">Tests</h2>
+          <p class="example-description"><code>quilon test</code> runs the checks beside your code; production builds
+            leave those test blocks out.</p>
+          <pre><code class="language-quilon">&lt;&lt; core.io
 &lt;&lt; core.test
 
-~ tests sit beside the code they check: `quilon test`
-~ runs the blocks, every other command erases them
-double = (n :: Num) -&gt; Num =&gt; &lt; n * 2 &gt;
+shipping = (total :: Num) -&gt; Num =&gt; &lt;
+  total &gt;= 50 ? 0 : 5
+&gt;
 
-test.describe(&quot;double&quot;, () =&gt; &lt;
-  test.it(&quot;doubles&quot;, () =&gt; expect(double(21), equals(42)))
-  test.it(&quot;keeps zero&quot;, () =&gt; expect(double(0), equals(0)))
+test.describe(&quot;shipping&quot;, () =&gt; &lt;
+  test.it(&quot;below the threshold&quot;, () =&gt; &lt;
+    expect(shipping(49), equals(5))
+  &gt;)
+  test.it(&quot;free from fifty&quot;, () =&gt; &lt;
+    expect(shipping(50), equals(0))
+  &gt;)
 &gt;)
 
-^ = () -&gt; $ =&gt; &lt; io.print(double(4)) &gt;   ~ 8</code></pre>
-          </div>
-        </div>
-      </section>
+^ = () -&gt; $ =&gt; &lt;
+  io.print(shipping(50))   ~ 0
+&gt;</code></pre>
+        </section>
+      </div>
+    </fieldset>
 
-      <p class="release">
-        <a
-          class="pill"
-          href="https://github.com/assapir/quilon/releases/tag/v0.10.0"
-          target="_blank"
-          rel="noopener"
-          >v0.10.0 &ldquo;Demosthenes&rdquo;</a
-        >
-        <span class="platforms"
-          >Native binaries for Linux (x86_64, aarch64) and macOS (Apple silicon) &mdash;
-          <a
-            href="https://github.com/assapir/quilon/releases/latest"
-            target="_blank"
-            rel="noopener"
-            >download</a
-          ></span
-        >
-      </p>
+    <p class="release">
+      <a class="pill" href="https://github.com/assapir/quilon/releases/tag/v0.10.0" target="_blank"
+        rel="noopener">v0.10.0
+        &ldquo;Demosthenes&rdquo;</a>
+      <span class="platforms">Binaries for Linux (x86_64, aarch64) and macOS (Apple silicon).</span>
+      <span class="platforms">No one care about Windows (for now), but you can try to open a pull request.</span>
+    </p>
 
-      <p class="links">
-        <a
-          class="star"
-          href="https://github.com/assapir/quilon"
-          target="_blank"
-          rel="noopener"
-          >&#9733; Star on GitHub<span class="star-count" data-star-count hidden></span
-        ></a
-        ><span aria-hidden="true">·</span>
-        <a href="https://docs.quilon.run/" target="_blank" rel="noopener"
-          >Docs</a
-        ><span aria-hidden="true">·</span>
-        <a
-          href="https://sapir.io/blog/no-keywords-and-make-me-laugh/"
-          target="_blank"
-          rel="noopener"
-          >Why it looks like this</a
-        >
-      </p>
-    </main>
+    <p class="links">
+      <a class="star" href="https://github.com/assapir/quilon" target="_blank" rel="noopener">&#9733; Star on
+        GitHub<span class="star-count" data-star-count hidden></span></a><span aria-hidden="true">·</span>
+      <a href="https://docs.quilon.run/" target="_blank" rel="noopener">Docs</a><span aria-hidden="true">·</span>
+      <a href="https://sapir.io/blog/no-keywords-and-make-me-laugh/" target="_blank" rel="noopener">Why it looks like
+        this</a>
+    </p>
+  </main>
 
-    <script type="module" src="/js/main.js"></script>
-  </body>
+  <script type="module" src="/js/main.js"></script>
+</body>
+
 </html>
