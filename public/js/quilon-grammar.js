@@ -1,5 +1,6 @@
 // Quilon TextMate grammar, copied from `editors/vscode/syntaxes/quilon.tmLanguage.json`
-// in https://github.com/assapir/quilon (minus `$schema`). Re-copy when it changes.
+// in https://github.com/assapir/quilon (minus `$schema` and descriptive `comment` fields).
+// Upstream revision: 552e8b34b346980e752b0d87aae3050abe5f281d. Re-copy when it changes.
 
 export const QUILON_GRAMMAR = {
   name: "Quilon",
@@ -15,6 +16,7 @@ export const QUILON_GRAMMAR = {
     { include: "#builtin-types" },
     { include: "#type-names" },
     { include: "#function-calls" },
+    { include: "#collection-fences" },
     { include: "#operators" },
     { include: "#punctuation" },
   ],
@@ -60,7 +62,7 @@ export const QUILON_GRAMMAR = {
         },
         {
           name: "constant.language.wildcard.quilon",
-          match: "(?<![A-Za-z0-9_])_(?![A-Za-z0-9_])",
+          match: "(?<![\\p{L}\\p{N}_])_(?![\\p{L}\\p{N}_])",
         },
       ],
     },
@@ -94,30 +96,40 @@ export const QUILON_GRAMMAR = {
     },
     "type-names": {
       name: "entity.name.type.quilon",
-      match: "\\b[A-Z][A-Za-z0-9_]*\\b",
+      match: "\\b[\\p{Lu}\\p{Lt}][\\p{L}\\p{N}_]*\\b",
     },
     "function-calls": {
-      match: "\\b([a-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+      match: "\\b((?!\\p{Lu})(?!\\p{Lt})[\\p{L}_][\\p{L}\\p{N}_]*)\\s*(?=\\()",
       captures: {
         1: { name: "entity.name.function.quilon" },
       },
+    },
+    "collection-fences": {
+      patterns: [
+        { name: "punctuation.definition.collection.begin.quilon", match: "\\[\\|" },
+        { name: "punctuation.definition.collection.end.quilon", match: "\\|\\]" },
+      ],
     },
     operators: {
       // Order matters: multi-char operators must precede any single-char rule
       // that is a prefix of them.
       patterns: [
-        { name: "keyword.operator.pipeline.quilon", match: "\\|>" },
         { name: "keyword.operator.assignment.mutable.quilon", match: ":=" },
         { name: "keyword.operator.type-annotation.quilon", match: "::" },
         { name: "keyword.operator.arrow.body.quilon", match: "=>" },
         { name: "keyword.operator.arrow.return.quilon", match: "->" },
-        { name: "keyword.operator.arrow.iterate.quilon", match: "<-" },
+        { name: "keyword.operator.arrow.range.quilon", match: "<-" },
         { name: "keyword.operator.comparison.quilon", match: "==|!=|<=|>=" },
         { name: "keyword.operator.logical.quilon", match: "&&|\\|\\|" },
         { name: "keyword.operator.logical.quilon", match: "!" },
         { name: "keyword.operator.match.quilon", match: "\\?|\\|" },
         { name: "keyword.operator.assignment.quilon", match: "=" },
         { name: "keyword.operator.arithmetic.quilon", match: "[+\\-*/%]" },
+        { name: "punctuation.definition.block.begin.quilon", match: "<(?=[ \\t]*$)" },
+        {
+          name: "punctuation.definition.block.end.quilon",
+          match: ">(?![ \\t]*(?:[\\p{L}\\p{N}_\"$@(\\[{]|-(?![>+])|!(?!=)))",
+        },
         { name: "keyword.operator.comparison.quilon", match: "[<>]" },
       ],
     },

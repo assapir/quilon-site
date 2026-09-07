@@ -1,9 +1,9 @@
 // Quilon syntax highlighting — a browser port of `editors/vscode/src/grammar.ts`
-// from https://github.com/assapir/quilon, so code blocks here get the same
-// colours as the editor.
+// from https://github.com/assapir/quilon at 552e8b34b346980e752b0d87aae3050abe5f281d.
+// The tokenizer follows upstream; scope-to-CSS mapping and HTML escaping are local.
 //
 // TextMate's rule: at each position take the FIRST matching rule in list order,
-// not the longest match. That ordering is why `|>` beats `|`, `=>` beats `=`, etc.
+// not the longest match. That ordering is why `||` beats `|`, `=>` beats `=`, etc.
 
 import { QUILON_GRAMMAR } from "./quilon-grammar.js";
 
@@ -16,6 +16,8 @@ const SCOPE_CLASSES = [
   ["constant.language", "qn-const"],
   ["keyword.control", "qn-control"],
   ["keyword.operator", "qn-operator"],
+  ["punctuation.definition.collection", "qn-operator"],
+  ["punctuation.definition.block", "qn-operator"],
   ["support.type", "qn-type"],
   ["entity.name.type", "qn-type"],
   ["entity.name.function", "qn-name"],
@@ -39,9 +41,9 @@ function escapeHtml(str) {
   return str.replace(/[&<>"]/g, (c) => ESCAPES[c]);
 }
 
-/** Sticky (`y`) so probing finds the earliest start; `d` exposes capture spans. */
+/** Sticky (`y`) for earliest start; `u` for Unicode properties; `d` for capture spans. */
 function sticky(source) {
-  return new RegExp(source, "yd");
+  return new RegExp(source, "yud");
 }
 
 function buildCaptures(rule) {

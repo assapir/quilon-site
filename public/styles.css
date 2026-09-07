@@ -110,6 +110,23 @@ h1 img {
 
 .examples {
   margin: 0 0 2.5rem;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 /* Radio + label tabs. No JavaScript, and no #hash — an anchor would make the
@@ -133,7 +150,11 @@ h1 img {
 }
 
 .picker label {
-  padding: 0.3rem 0.7rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 0.55rem;
   border: 1px solid transparent;
   border-radius: 999px;
   color: var(--fg-dim);
@@ -146,54 +167,100 @@ h1 img {
   background: var(--code-bg);
 }
 
-/* Panels are stacked in one grid cell, so the box is always as tall as the
-   tallest example and switching never shifts the page. */
-.panels {
-  display: grid;
-}
-
+/* Only the selected panel participates in layout. Short examples should not
+   inherit the height of the longest sample. */
 .panel {
-  grid-area: 1 / 1;
-  /* A grid item's default min-width is its content, which would let a long
-     line widen the whole page instead of scrolling inside the pre. */
+  display: none;
   min-width: 0;
-  visibility: hidden;
 }
 
-#ex-1:checked ~ .picker label[for="ex-1"],
-#ex-2:checked ~ .picker label[for="ex-2"],
-#ex-3:checked ~ .picker label[for="ex-3"],
-#ex-4:checked ~ .picker label[for="ex-4"],
-#ex-5:checked ~ .picker label[for="ex-5"],
-#ex-6:checked ~ .picker label[for="ex-6"],
-#ex-7:checked ~ .picker label[for="ex-7"],
-#ex-8:checked ~ .picker label[for="ex-8"] {
+.picker label:has(input:checked) {
   color: var(--claret);
   border-color: var(--border);
   background: var(--code-bg);
 }
 
-#ex-1:focus-visible ~ .picker label[for="ex-1"],
-#ex-2:focus-visible ~ .picker label[for="ex-2"],
-#ex-3:focus-visible ~ .picker label[for="ex-3"],
-#ex-4:focus-visible ~ .picker label[for="ex-4"],
-#ex-5:focus-visible ~ .picker label[for="ex-5"],
-#ex-6:focus-visible ~ .picker label[for="ex-6"],
-#ex-7:focus-visible ~ .picker label[for="ex-7"],
-#ex-8:focus-visible ~ .picker label[for="ex-8"] {
+.picker label:has(input:focus-visible),
+.copy-example:focus-visible,
+pre:focus-visible {
   outline: 2px solid var(--claret);
   outline-offset: 2px;
 }
 
-#ex-1:checked ~ .panels .panel:nth-child(1),
-#ex-2:checked ~ .panels .panel:nth-child(2),
-#ex-3:checked ~ .panels .panel:nth-child(3),
-#ex-4:checked ~ .panels .panel:nth-child(4),
-#ex-5:checked ~ .panels .panel:nth-child(5),
-#ex-6:checked ~ .panels .panel:nth-child(6),
-#ex-7:checked ~ .panels .panel:nth-child(7),
-#ex-8:checked ~ .panels .panel:nth-child(8) {
-  visibility: visible;
+.examples:has(#ex-rendering:checked) #panel-rendering,
+.examples:has(#ex-tickets:checked) #panel-tickets,
+.examples:has(#ex-pizza:checked) #panel-pizza,
+.examples:has(#ex-parcel:checked) #panel-parcel,
+.examples:has(#ex-keys:checked) #panel-keys,
+.examples:has(#ex-input:checked) #panel-input,
+.examples:has(#ex-tests:checked) #panel-tests {
+  display: block;
+}
+
+.panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.example-description {
+  margin: 0 auto 1rem;
+  max-width: 34rem;
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+  text-wrap: balance;
+}
+
+.code-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.code-block pre {
+  border: 0;
+  border-radius: 0 0 10px 10px;
+  padding-top: 0.5rem;
+}
+
+.example-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.copy-status {
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.copy-example {
+  flex: none;
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--fg-dim);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.copy-example:hover {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--claret);
+}
+
+.copy-example:disabled {
+  cursor: progress;
 }
 
 pre {
@@ -224,6 +291,12 @@ code {
   margin-top: 0.6rem;
   font-size: 0.8rem;
   color: var(--fg-dim);
+
+  a {
+    color: var(--fg-dim);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+  }
 }
 
 .pill {
@@ -333,11 +406,8 @@ code {
 
 /* ---- narrow screens ---- */
 
-/* The widest sample is 46 columns. Rather than pick a font size per breakpoint
-   and hope, the type is sized from the viewport, so the longest line lands just
-   inside the screen at any width and no code block becomes a sideways scroller.
-   The block keeps a gutter narrower than the prose, not none at all.
-   overflow-x on pre stays as the backstop. */
+/* Keep examples around 44 columns, but never shrink the text to fit a phone.
+  Horizontal scrolling inside pre is the fallback, including at high zoom. */
 @media (max-width: 34rem) {
   body {
     padding: 2rem 1rem;
@@ -352,16 +422,6 @@ code {
   }
 
   code {
-    /* 46 cols x 0.6em advance, against the viewport less 3rem: 0.75rem of
-       gutter and 0.75rem of padding on each side. A sample WIDER than 46
-       columns overflows this, and because the body is a centred grid the
-       overflow shows up as a phantom gutter down the left of the whole
-       page — keep every panel inside the budget. */
-    font-size: min(0.8rem, calc((100vw - 3rem) / 28.5));
-  }
-
-  /* Thumb-sized tabs. 0.3rem of padding is a 31px target. */
-  .picker label {
-    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
   }
 }
